@@ -47,6 +47,6 @@ jobs:
           POSTGRES_KEY: ${{ secrets.POSTGRES_KEY}}
           
       - name: Docker compose
-        run: docker compose -d up --build
+        run: docker compose up --build
 
 
