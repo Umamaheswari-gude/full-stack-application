@@ -33,9 +33,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Connect env file
+      - name: Create env file
         run: |
-        
+            cat <<EOF > .env
             POSTGRES_USER=${{ secrets.DB_USER }}
             POSTGRES_PASSWORD=${{ secrets.DB_PASSWORD }}
             POSTGRES_DB=myappdb
@@ -44,6 +44,7 @@ jobs:
             DB_PORT= 5432
             DB_NAME= myappdb
             DB_HOST= db
+            EOF
           
       - name: Docker compose
         run: docker compose up -d --build
