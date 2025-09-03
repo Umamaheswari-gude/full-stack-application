@@ -4,6 +4,12 @@ This project is a demo application with a signup and login feature. It includes 
 
 ---
 
+## Features
+- Implemented the docker file for the frontend.
+- Implemented the docker file for the backend.
+- Implemented the docker compose for the application.
+- Implemented the github action workflow for the application.
+
 ## Prerequisites
 
 Before you begin, ensure the following dependencies are installed on your system:
@@ -68,7 +74,7 @@ Download and install Node.js from the [official website](https://nodejs.org/).
 
 5. Start the backend server:
    ```bash
-   npm run dev
+   npm start
    ```
    
 6. Server will run on the port you have mentioned in .env.
