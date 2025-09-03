@@ -1,0 +1,22 @@
+name: fullstack-application
+
+on:
+  push:
+    branches: [ "main", "feature/docker-setup" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: ./frontend ./backend
+
+      - name: Build project
+        run: npm run build
+
