@@ -34,9 +34,9 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Create env file
-        run: |
-            touch .env
+        run: 
             echo " ${{ secrets.ENV }}" >> .env
+      
           
       - name: Docker compose
         run: docker compose up -d --build
