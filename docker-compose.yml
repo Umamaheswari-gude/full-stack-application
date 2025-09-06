@@ -1,0 +1,47 @@
+services:
+  db:
+    image: postgres
+    container_name: db-3
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "5006:5432"
+    volumes:
+      - myappdb_volume:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  backend:
+    build:
+       ./backend
+    image: umamaheswarigude11/backend:v3
+    container_name: backend-3
+    restart: always
+    ports:
+      - "5013:5050"
+    env_file:
+      - .env
+    depends_on:
+        db:
+          condition: service_healthy
+  frontend:
+    build:
+      ./frontend
+    image: umamaheswarigude11/frontend:v3
+    container_name: frontend-3
+    restart: always
+    ports:
+      - "5008:5173"
+    depends_on:
+      - backend
+volumes:
+  myappdb_volume:
+
+
+
+
+
+
