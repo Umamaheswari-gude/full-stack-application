@@ -6,14 +6,17 @@ services:
     env_file:
       - .env
     ports:
-      - "5006:5432"
+      - "5432:5432"
     volumes:
       - myappdb_volume:/var/lib/postgresql/data
+    networks:
+      - myappdb_network
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
-      timeout: 5s
+      timeout: 10s
       retries: 5
+      start_period: 60s
   backend:
     build:
        ./backend
@@ -21,9 +24,12 @@ services:
     container_name: backend-3
     restart: always
     ports:
-      - "5013:5050"
+      - "5007:5050"
     env_file:
       - .env
+    networks:
+      - myappdb_network
+    
     depends_on:
         db:
           condition: service_healthy
@@ -35,10 +41,15 @@ services:
     restart: always
     ports:
       - "5008:5173"
+    networks:
+      - myappdb_network
     depends_on:
       - backend
+          
 volumes:
   myappdb_volume:
+networks:
+  myappdb_network:
 
 
 
