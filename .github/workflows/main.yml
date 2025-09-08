@@ -71,6 +71,9 @@ jobs:
       - name: Push the backend image to docker hub
         run: docker push umamaheswarigude11/backend:v3
 
+      - name: Push the db image to docker hub
+        run: docker push umamaheswarigude11/postgres
+
 
      
 
