@@ -43,9 +43,6 @@ jobs:
       - name: Build docker frontend image
         run: docker build -t ${{ secrets.DOCKER_USERNAME }}/backend:v3 ./backend
 
-      - name: Build docker db image
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/postgres
-            
       - name: Image display
         run: docker images
 
@@ -54,15 +51,20 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_TOKEN }}
-
+      
+      - name: Run the database container
+        run: docker run -d -p 5432:5432 -e POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD}} -e POSTGRES_USER=postgres -e POSTGRES_DB=myappdb -e POSTGRES_HOST=db postgres
+      
+      - name: Run the backend container
+        run: docker run -d -p 5050:5050 ${{ secrets.DOCKER_USERNAME }}/backend:v3 
+     
+     
       - name: Run the frontend container
         run: docker run -d -p 5173:5173 ${{ secrets.DOCKER_USERNAME }}/frontend:v3 
 
-      - name: Run the backend container
-        run: docker run -d -p 5050:5050 ${{ secrets.DOCKER_USERNAME }}/backend:v3 
+      
 
-      - name: Run the database container
-        run: docker run -d -p 5432:5432 ${{ secrets.DOCKER_USERNAME }}/postgres -e POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD}} postgres
+      
 
       - name: Display containers
         run: docker ps -a
