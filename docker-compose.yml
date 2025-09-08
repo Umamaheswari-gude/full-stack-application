@@ -61,6 +61,7 @@ volumes:
   myappdb_volume:
 networks:
   myappdb_network:
+     driver: macvlan
 
 
 
