@@ -64,6 +64,9 @@ jobs:
 
       - name: Display containers
         run: docker ps -a
+
+      - name: Display images
+        run: docker images
        
       - name: Push the frontend image to docker hub
         run: docker push umamaheswarigude11/frontend:v3
@@ -71,8 +74,7 @@ jobs:
       - name: Push the backend image to docker hub
         run: docker push umamaheswarigude11/backend:v3
 
-      - name: Push the db image to docker hub
-        run: docker push umamaheswarigude11/postgres
+      
 
 
      
