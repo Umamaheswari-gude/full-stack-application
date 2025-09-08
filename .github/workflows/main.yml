@@ -62,10 +62,10 @@ jobs:
         run: docker run -d -p 5432:5432 --network myappdb_network -e POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD}} -e POSTGRES_USER=${{ secrets.POSTGRES_USER }} -e POSTGRES_DB=${{ secrets.POSTGRES_DB }} -e POSTGRES_HOST=${{ secrets.POSTGRES_HOST }} -v data_volume://var/lib/postgresql/data postgres
       
       - name: Run the backend container
-        run: docker run -d -p 5050:5050 ${{ secrets.DOCKER_USERNAME }}/backend:v3 
+        run: docker run -d -p 5050:5050 --network myappdb_network ${{ secrets.DOCKER_USERNAME }}/backend:v3 
      
       - name: Run the frontend container
-        run: docker run -d -p 5173:5173 ${{ secrets.DOCKER_USERNAME }}/frontend:v3 
+        run: docker run -d -p 5173:5173 --network myappdb_network ${{ secrets.DOCKER_USERNAME }}/frontend:v3 
 
       - name: Display containers
         run: docker ps -a
