@@ -38,22 +38,22 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build docker frontend image
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/frontend:v3 .
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/frontend:v3 ./frontend
     
       - name: Build docker frontend image
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/backend:v3 .
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/backend:v3 ./backend
     
       - name: Image display
         run: docker images
 
       - name: Run the frontend container
-        run: docker run -d -p 5173:5173 ${{ secrets.DOCKER_USERNAME }}/frontend:v3
+        run: docker run -d -p 5173:5173 ${{ secrets.DOCKER_USERNAME }}/frontend:v3 
 
       - name: Run the backend container
-        run: docker run -d -p 5050:5050 ${{ secrets.DOCKER_USERNAME }}/backend:v3
+        run: docker run -d -p 5050:5050 ${{ secrets.DOCKER_USERNAME }}/backend:v3 
 
       - name: Run the database container
-        run: docker run -d -p 5432:5432 ${{ secrets.DOCKER_USERNAME }}/postgres
+        run: docker run -d -p 5432:5432 ${{ secrets.DOCKER_USERNAME }}/postgres 
 
       - name: Display containers
         run: docker ps -a
