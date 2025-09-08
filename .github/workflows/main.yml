@@ -42,7 +42,10 @@ jobs:
     
       - name: Build docker frontend image
         run: docker build -t ${{ secrets.DOCKER_USERNAME }}/backend:v3 ./backend
-    
+
+      - name: Build docker db image
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/postgres
+            
       - name: Image display
         run: docker images
 
