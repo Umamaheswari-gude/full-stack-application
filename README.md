@@ -11,12 +11,12 @@ This project is a demo application with a signup and login feature. It includes 
 - Implemented the github action workflow for the application.
 
 - Added Features:
-- Implemented dockerfile for frontend and backend services.
+- Implemented docker compose file for frontend and backend services.
 - Implemented networks in the compose.
 - Updated the github action workflow through commands.
 - Added health checks to frontend and backend services.
 - Updated the base image and reduced the size of the images.
-- Added build command for frontend in guthub action workflow.
+- Added build command for frontend in github action workflow.
 - Removed the build step in frontend dockerfile.
 
 ## Prerequisites
