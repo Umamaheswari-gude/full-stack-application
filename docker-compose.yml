@@ -4,11 +4,11 @@ services:
     container_name: db-3
     restart: always
     ports:
-      - 5432:5432
+      - 5430:5432
     env_file:
       - .env
     volumes:
-      - myappdb_volume:/var/lib/postgresql/data
+      - myappdb_volume:/var/lib/postgresql/data/
     networks:
       - myappdb_network
     healthcheck:
