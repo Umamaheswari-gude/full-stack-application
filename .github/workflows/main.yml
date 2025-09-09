@@ -40,7 +40,7 @@ jobs:
       - name: Build docker frontend image
         run: docker build -t ${{ secrets.DOCKER_USERNAME }}/frontend:v3 ./frontend
     
-      - name: Build docker frontend image
+      - name: Build docker backend image
         run: docker build -t ${{ secrets.DOCKER_USERNAME }}/backend:v3 ./backend
 
       - name: Image display
