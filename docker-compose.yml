@@ -1,0 +1,72 @@
+services:
+  db:
+    image: postgres
+    container_name: db-3
+    restart: always
+    ports:
+      - 5430:5432
+    env_file:
+      - .env
+    volumes:
+      - myappdb_volume:/var/lib/postgresql/data/
+    networks:
+      - myappdb_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+  backend:
+    build:
+       ./backend
+    image: umamaheswarigude11/backend:v3
+    container_name: backend-3
+    restart: always
+    ports:
+      - "5050:5050"
+    env_file:
+      - .env
+    networks:
+      - myappdb_network
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:5050/health-check"]
+      interval: 15s
+      timeout: 15s
+      retries: 5
+      start_period: 30s
+    depends_on:
+        db:
+          condition: service_healthy
+  frontend:
+    build:
+      ./frontend
+    image: umamaheswarigude11/frontend:v3
+    container_name: frontend-3
+    restart: always
+    ports:
+      - "5173:5173"
+    networks:
+      - myappdb_network
+    healthcheck:
+      test: ["CMD", "curl -f http://localhost:5173/index.html"]
+      interval: 10s
+      timeout: 25s
+      retries: 5
+      start_period: 30s
+    depends_on:
+      db:
+        condition: service_healthy
+      backend:
+          condition: service_healthy
+volumes:
+  myappdb_volume:
+networks:
+  myappdb_network:
+     driver: bridge
+
+
+
+
+
+

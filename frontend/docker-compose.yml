@@ -1,0 +1,27 @@
+services:
+  frontend:
+    build:
+      .
+    image: umamaheswarigude11/frontend:v4
+    container_name: frontend-4
+    restart: always
+    ports:
+      - "5173:5173"
+    networks:
+      - myappdb_network
+    healthcheck:
+      test: ["CMD", "curl -f http://localhost:5173/index.html"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    
+volumes:
+  myappdb_volume:
+networks:
+  myappdb_network:
+
+
+
+
+
+

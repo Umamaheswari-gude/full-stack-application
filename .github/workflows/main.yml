@@ -1,0 +1,89 @@
+name: fullstack-application
+
+on:
+  push:
+    branches: [ "main", "feature/docker-setup", "feature/feedback-implementation" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install frontend dependencies
+        run: npm install
+        working-directory: ./frontend 
+
+      - name: Install backend dependencies
+        run: npm install
+        working-directory: ./backend 
+
+      - name: Build project for frontend
+        run: npm run build
+        working-directory: ./frontend
+
+      - name: Build project for backend
+        run: npm run build
+        working-directory: ./backend
+
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build docker frontend image
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/frontend:v3 ./frontend
+    
+      - name: Build docker backend image
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/backend:v3 ./backend
+
+      - name: Image display
+        run: docker images
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+      
+      - name: Create the volume
+        run: docker volume create data_volume
+
+      - name: Create the network
+        run: docker network create myappdb_network
+
+      - name: Run the database container
+        run: docker run -d -p 5432:5432 --network myappdb_network -e POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD}} -e POSTGRES_USER=${{ secrets.POSTGRES_USER }} -e POSTGRES_DB=${{ secrets.POSTGRES_DB }} -e POSTGRES_HOST=${{ secrets.POSTGRES_HOST }} -v data_volume://var/lib/postgresql/data postgres
+      
+      - name: Run the backend container
+        run: docker run -d -p 5050:5050 --network myappdb_network ${{ secrets.DOCKER_USERNAME }}/backend:v3 
+     
+      - name: Run the frontend container
+        run: docker run -d -p 5173:5173 --network myappdb_network ${{ secrets.DOCKER_USERNAME }}/frontend:v3 
+
+      - name: Display containers
+        run: docker ps -a
+
+      - name: Display images
+        run: docker images
+       
+      - name: Push the frontend image to docker hub
+        run: docker push umamaheswarigude11/frontend:v3
+
+      - name: Push the backend image to docker hub
+        run: docker push umamaheswarigude11/backend:v3
+
+      
+
+
+     
+
+
+    
+
