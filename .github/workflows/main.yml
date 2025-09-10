@@ -57,7 +57,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ secrets.DOCKER_USERNAME }} /frontend
+          images: ${{ secrets.DOCKER_USERNAME }}/frontend
           tags: |
             type=schedule
             type=ref,event=branch
