@@ -37,8 +37,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Build docker frontend image
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/frontend:v3 ./frontend
+      # - name: Build docker frontend image
+      #   run: docker build -t ${{ secrets.DOCKER_USERNAME }}/frontend:v3 ./frontend
     
       - name: Build docker backend image
         run: docker build -t ${{ secrets.DOCKER_USERNAME }}/backend:v3 ./backend
