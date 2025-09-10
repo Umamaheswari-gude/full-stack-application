@@ -37,8 +37,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # - name: Build docker frontend image
-      #   run: docker build -t ${{ secrets.DOCKER_USERNAME }}/frontend:v3 ./frontend
+      - name: Build docker frontend image
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/frontend:v3 ./frontend
     
       - name: Build docker backend image
         run: docker build -t ${{ secrets.DOCKER_USERNAME }}/backend:v3 ./backend
@@ -53,25 +53,25 @@ jobs:
           password: ${{ secrets.DOCKER_TOKEN }}
 
 
-      - name: Extract Docker metadata
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ secrets.DOCKER_USERNAME }}/frontend ./frontend
-          tags: |
-            type=schedule
-            type=ref,event=branch
-            type=ref,event=pr
-            type=semver,pattern={{version}}
-            type=sha
+      # - name: Extract Docker metadata
+      #   id: meta
+      #   uses: docker/metadata-action@v5
+      #   with:
+      #     images: ${{ secrets.DOCKER_USERNAME }}/frontend ./frontend
+      #     tags: |
+      #       type=schedule
+      #       type=ref,event=branch
+      #       type=ref,event=pr
+      #       type=semver,pattern={{version}}
+      #       type=sha
 
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v5
-        with:
-          context: ./frontend
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+      # - name: Build and push Docker image
+      #   uses: docker/build-push-action@v5
+      #   with:
+      #     context: ./frontend
+      #     push: true
+      #     tags: ${{ steps.meta.outputs.tags }}
+      #     labels: ${{ steps.meta.outputs.labels }}
       
       - name: Create the volume
         run: docker volume create data_volume
