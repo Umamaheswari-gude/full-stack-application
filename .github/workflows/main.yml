@@ -2,7 +2,7 @@ name: fullstack-application
 
 on:
   push:
-    branches: [ "main", "feature/docker-setup", "feature/feedback-implementation" ]
+    branches: [ "main", "feature/docker-setup", "feature/feedback-implementation", "feature/experimentation" ]
   pull_request:
     branches: [ "main" ]
 
